@@ -19,6 +19,12 @@ export default function(pdfjsWrapper) {
 					},
 					ref:'canvas'
 				}),
+				h('div', {
+					attrs: {
+					},
+					class: 'textLayer',
+					ref:'textLayer'
+				}),
 				h('span', {
 					style: 'display: inline-block; width: 100%; height: 100%',
 					class: 'annotationLayer',
@@ -75,7 +81,7 @@ export default function(pdfjsWrapper) {
 				if ( resolutionScale < 0.85 || resolutionScale > 1.15 )
 					this.pdf.renderPage(this.rotate);
 
-				// this.$refs.annotationLayer.style.transform = 'scale('+resolutionScale+')';
+				this.$refs.annotationLayer.style.transform = 'scale('+resolutionScale+')';
 			},
 			print: function(dpi, pageList) {
 
@@ -85,8 +91,7 @@ export default function(pdfjsWrapper) {
 
 		// doc: mounted hook is not called during server-side rendering.
 		mounted: function() {
-
-			this.pdf = new PDFJSWrapper(this.$refs.canvas, this.$refs.annotationLayer, this.$emit.bind(this));
+			this.pdf = new PDFJSWrapper(this.$refs.canvas, this.$refs.annotationLayer, this.$refs.textLayer, this.$emit.bind(this));
 
 			this.$on('loaded', function() {
 
